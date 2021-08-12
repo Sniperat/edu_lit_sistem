@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-y!+9gdzb*dv%2lz!^35f@=(l)e6(i5(7a8ri+$ns7c1z#2y^6*
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+APPEND_SLASH = False
 
 # Application definition
 
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bot'
+    'bota'
 ]
 
 MIDDLEWARE = [
@@ -125,4 +125,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-BOT_TOKEN = '987901929:AAGXNZRYYet3z_fqYRNbjilLsPJHZJwBHbg'
+BOT_TOKEN = '1912846455:AAFQAojdIqH_CesUggcDakYT3WFkr2XqNI4'
