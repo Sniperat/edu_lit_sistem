@@ -8,10 +8,12 @@ from django.db import models
 class Telegaram_user(models.Model):
     STATE_FULLNAME = 0
     STATE_PHONE = 1
+    STATE_PHOTO = 2
 
     telegram_user_id = models.CharField(max_length=100, primary_key=True)
     fullName = models.CharField(max_length=50, default=None, null=True)
     phone = models.CharField(max_length=15, default=None, null=True)
+    photo = models.ImageField(upload_to='avatars/', null=True, blank=True)
     is_staff = models.BooleanField(default=False)
     groups = models.ManyToManyField('Group_me', blank=True)
     state = models.IntegerField(default=STATE_FULLNAME, null=True)

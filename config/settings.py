@@ -128,3 +128,8 @@ STATIC_ROOT = BASE_DIR / "static"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = '1932236995:AAHZ-8x0bCguCE3XH8mu92MEkByAOtkzuB0'
+    # '1912846455:AAFQAojdIqH_CesUggcDakYT3WFkr2XqNI4'
+    # '1932236995:AAHZ-8x0bCguCE3XH8mu92MEkByAOtkzuB0'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / "media"

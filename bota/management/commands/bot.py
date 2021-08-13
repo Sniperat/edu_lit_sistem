@@ -1,3 +1,4 @@
+from django.core.files.images import ImageFile
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Location, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, CallbackContext, Filters, RegexHandler, \
     MessageHandler
@@ -23,6 +24,9 @@ class Command(BotBase):
     def message_handler(self, update: Update, context: CallbackContext) -> None:
         user = user_func(update)
         msg = str(update.message.text)
+        # print(update.message)
+
+
         text = ''
         if user.state == 0:
             user.fullName = msg
@@ -31,10 +35,22 @@ class Command(BotBase):
             update.message.reply_text(text)
         elif user.state == 1:
             user.phone = msg
+            user.state = 2
+            user.save()
+            text = "Iltmos suratingizni jo'nating (Selfi formad ham bo'laveradi)"
+            update.message.reply_text(text)
+        elif user.state == 2:
+            file = update.message.photo[2].file_id
+            obj = context.bot.get_file(file)
+            img = obj.download()
+            print(img)
+            # f = File(open('path-to-file-on-server', 'r'))
+            user.photo = ImageFile(open(img, "rb"))
             user.state = 7
             user.save()
-            text = "bo'ldi"
+            text = "Ro'yhatdan o'tish muoffaqqiyatli yakunlandi"
             update.message.reply_text(text)
+
         elif not user.is_staff and msg == "comment":
             user.state = 909
             user.save()
@@ -202,9 +218,15 @@ class Command(BotBase):
         elif qData == '0':
             query.edit_message_text(text=msg + "  ❌")
 
+    def image_handler(bot, update):
+        file = bot.getFile(update.message.photo.file_id)
+        print("file_id: " + str(update.message.photo.file_id))
+        file.download('image.jpg')
+
+
     def handle(self, *args, **kwargs):
         dispatcher = self.updater.dispatcher
-
+        # dispatcher.add_handler(MessageHandler(Filters.photo, self.image_handler))
         # dispatcher.add_handler(CallbackQueryHandler(self.days2, pattern="^(\d{4}\-\d{2}\-\d{2})$"))
         dispatcher.add_handler(CallbackQueryHandler(self.delete, pattern="^(\d{1,10}\-\d{1})$"))
         # dispatcher.add_handler(CallbackQueryHandler(self.start, pattern="^(asd\d{1})$"))
