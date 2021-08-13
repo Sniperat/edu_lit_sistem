@@ -22,8 +22,10 @@ def students(request, pk):
 
 
 def single_stu(request, pk):
-    students = Student.objects.get(group=pk)
-    print(students)
+    print('manashu joti ishladi')
+    student = Student.objects.get(id=pk)
+    print('buyam ishladi')
+    print(student)
     return render(request, 'single_page.html', {
-        'student': students
+        'student': student
     })
