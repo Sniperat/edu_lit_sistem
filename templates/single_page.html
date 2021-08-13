@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-6">
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>First Name</div>
+                    <div>{{ student.firstName }}</div>
+                </div>
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>LastName</div>
+                    <div>{{ student.lastName }}</div>
+                </div>
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>SecondName</div>
+                    <div>{{ student.secondName }}</div>
+                </div>
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>Group</div>
+                    <div>{{ student.group }}</div>
+                </div>
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>Self telegram</div>
+                    <div>{{ student.self_telegram.fullName }}</div>
+                </div>
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>Mom telegram</div>
+                    <div>{{ student.mom_telegram.fullName }}</div>
+                </div>
+                <div class="d-flex border p-4 justify-content-between">
+                    <div>Dad telegram</div>
+                    <div>{{ student.dad_telegram.fullName }}</div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

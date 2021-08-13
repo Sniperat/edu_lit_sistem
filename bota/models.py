@@ -13,7 +13,7 @@ class Telegaram_user(models.Model):
     fullName = models.CharField(max_length=50, default=None, null=True)
     phone = models.CharField(max_length=15, default=None, null=True)
     is_staff = models.BooleanField(default=False)
-    groups = models.ManyToManyField('Group_me')
+    groups = models.ManyToManyField('Group_me', blank=True)
     state = models.IntegerField(default=STATE_FULLNAME, null=True)
     role = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
 
@@ -34,10 +34,13 @@ class Student(models.Model):
     secondName = models.CharField(max_length=100, null=True)
     group = models.ForeignKey(Group_me, on_delete=models.RESTRICT)
     self_telegram = models.ForeignKey(Telegaram_user, on_delete=models.RESTRICT, null=True,
+                                      blank=True,
                                       related_name='studentTelegram')
     mom_telegram = models.ForeignKey(Telegaram_user, on_delete=models.RESTRICT, null=True,
+                                     blank=True,
                                      related_name='motherTelegram')
     dad_telegram = models.ForeignKey(Telegaram_user, on_delete=models.RESTRICT, null=True,
+                                     blank=True,
                                      related_name='fatherTelegram')
 
     def __str__(self):
@@ -46,7 +49,7 @@ class Student(models.Model):
 
 class Task(models.Model):
     owner = models.ForeignKey(Telegaram_user, on_delete=models.RESTRICT)
-    created_day = models.DateField(auto_now=True)
+    created_day = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(Group_me, on_delete=models.RESTRICT, null=True)
     tasks = models.TextField(null=True)
     count = models.CharField(max_length=10, null=True)

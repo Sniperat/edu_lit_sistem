@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-between my-2">
+            <div class="h2">Studentlar</div>
+            <div class="h2">{{ groups.name }}</div>
+            <div class="">
+                <a class="btn btn-primary" href="/admin/">admin</a>
+            </div>
+
+        </div>
+
+
+        <table class="table table-striped" style="">
+            <thead>
+            <tr>
+
+                <th scope="col">Students</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for st in students %}
+                    <td><a href="{% url 'single_stu' st.id %}">{{ st.firstName }}  {{ st.lastName }}  {{ st.secondName }}</a></td>
+
+                {% endfor %}
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

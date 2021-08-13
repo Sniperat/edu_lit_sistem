@@ -12,9 +12,9 @@ def user_func(update):
     return user
 
 
-def task_func(user, pk):
+def task_func(user, status):
     try:
-        task = Task.objects.get(owner=user, id=pk)
+        task = Task.objects.get(owner=user, state=status)
     except:
         task = Task(owner=user)
         task.save()
@@ -28,3 +28,9 @@ def score_func(student, task):
         asd = Scores(student=student, task=task)
         asd.save()
     return asd
+
+
+def last_task_off(group):
+    for t in Task.objects.filter(state=0, group=group):
+        t.state = 1
+        t.save()

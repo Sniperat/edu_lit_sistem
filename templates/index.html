@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-between my-2">
+            <div class="h2">Guruhlar</div>
+            <div class="">
+                <a class="btn btn-primary" href="/admin/">admin</a>
+            </div>
+
+        </div>
+
+
+        <table class="table table-striped" style="">
+            <thead>
+            <tr>
+
+                <th scope="col">Guruh</th>
+{#                <th scope="col">Comentator</th>#}
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for gr in groups %}
+            <tr>
+
+                    <td><a href="{% url 'students' gr.id %}">{{ gr.name }}</a></td>
+{#                    <td>Otto</td>#}
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

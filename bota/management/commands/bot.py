@@ -6,9 +6,8 @@ import datetime
 
 from django.conf import settings
 from ._base import BotBase
-from bota.functions import user_func, task_func, score_func
+from bota.functions import user_func, task_func, score_func, last_task_off
 from bota.models import Group_me, Telegaram_user, Task, Scores, Student
-
 
 from django.core.validators import EmailValidator
 
@@ -18,18 +17,6 @@ import random
 class Command(BotBase):
 
     def language(self, update: Update, context: CallbackContext) -> None:
-        # keyboard = [
-        #     [
-        #         InlineKeyboardButton("O'zbekcha", callback_data='asd1')
-        #     ],
-        #     [
-        #         InlineKeyboardButton('Русский', callback_data='asd2')
-        #     ],
-        #     [
-        #         InlineKeyboardButton('English', callback_data='asd3')
-        #     ]
-        # ]
-        # reply_markup = InlineKeyboardMarkup(keyboard)
         user = user_func(update)
         update.message.reply_text("To'liq ismingizni kiriting.")
 
@@ -48,28 +35,86 @@ class Command(BotBase):
             user.save()
             text = "bo'ldi"
             update.message.reply_text(text)
+        elif not user.is_staff and msg == "comment":
+            user.state = 909
+            user.save()
+            update.message.reply_text("Comment jo'nating")
+        elif not user.is_staff and user.state == 909:
+
+            student = None
+            if user.role.name == "Student":
+                student = Student.objects.get(self_telegram=user)
+            if user.role.name == "Father":
+                student = Student.objects.get(dad_telegram=user)
+            if user.role.name == "Mother":
+                student = Student.objects.get(mom_telegram=user)
+            commentators = Telegaram_user.objects.filter(is_staff=1)
+            commentator = None
+            for com in commentators:
+                if student.group in com.groups.all():
+                    commentator = com
+
+            text = f"{student.group.name} {student.firstName} {student.lastName} from {user.role}"
+            self.updater.bot.send_message(chat_id=commentator.telegram_user_id,
+                                          text=text)
+            self.updater.bot.forward_message(chat_id=commentator.telegram_user_id,
+                                             from_chat_id=user.telegram_user_id,
+                                             message_id=update.message.message_id)
+            user.state = 7
+            user.save()
+
         elif user.is_staff:
             groups = user.groups.all()
-            if msg == 'topshiriq yuborish':
+            if user.state == 707:
+                groups_f_s = user.groups.all()
+                for gurux in groups_f_s:
+                    stu = Student.objects.filter(group=gurux)
+                    for stud in stu:
+                        try:
+                            self.updater.bot.forward_message(chat_id=stud.self_telegram.telegram_user_id,
+                                                             from_chat_id=user.telegram_user_id,
+                                                             message_id=update.message.message_id)
+                        except:
+                            pass
+                        try:
+                            self.updater.bot.forward_message(chat_id=stud.mom_telegram.telegram_user_id,
+                                                             from_chat_id=user.telegram_user_id,
+                                                             message_id=update.message.message_id)
+                        except:
+                            pass
+                        try:
+                            self.updater.bot.forward_message(chat_id=stud.dad_telegram.telegram_user_id,
+                                                             from_chat_id=user.telegram_user_id,
+                                                             message_id=update.message.message_id)
+                        except:
+                            pass
+                user.state = 7
+                user.save()
+
+            elif msg == "E'lon":
+                update.message.reply_text("E'lon Jo'nating jo'nating")
+                user.state = 707
+                user.save()
+            elif msg == 'topshiriq yuborish':
                 keyboard = []
-                user.state = None
                 user.save()
                 for i in groups:
                     keyboard.append([i.name])
 
                 reply_markup = ReplyKeyboardMarkup(keyboard)
-                update.message.reply_text(text="tanlang", reply_markup=reply_markup)
-            else:
+                update.message.reply_text(text="Guruhlarni tanlang", reply_markup=reply_markup)
+            elif user.state != 707:
                 try:
                     msg_group = Group_me.objects.get(name=msg)
                 except:
                     msg_group = None
 
-                task = task_func(user, user.state)
+                task = task_func(user, 0)
                 if msg_group in groups:
-                    task.group = msg_group
-                    task.save()
-                    user.state = task.id
+                    last_task_off(msg_group)
+                    ttask = task_func(user, 0)
+                    ttask.group = msg_group
+                    ttask.save()
                     update.message.reply_text(text="Savollarni yozing")
                 elif task.state == 0:
                     task.tasks = msg
@@ -79,46 +124,51 @@ class Command(BotBase):
                     # user.state = None
                     user.save()
                     task.save()
+                    students_ongroup = Student.objects.filter(group=task.group)
                     parents = Telegaram_user.objects.all()
+
+                    # TODO topshiriqlar jo'natilgandan keyin
+                    keyboard = [['topshiriq yuborish'], ["E'lon"]]
+                    reply_markup = ReplyKeyboardMarkup(keyboard)
+                    update.message.reply_text(text="Topshiriqlar jo'natildi", reply_markup=reply_markup)
+
+
                     for ase in parents:
                         # print(ase.groups.all().first())
                         if ase.groups.all().first() == task.group:
                             contentTasks = []
-                            self.updater.bot.send_message(chat_id=ase.telegram_user_id, text=str(datetime.datetime.now())[:16])
+                            if ase.is_staff:
+                                pass
+                            else:
+                                keyboard = [['comment']]
+                                reply_markup = ReplyKeyboardMarkup(keyboard)
+                                self.updater.bot.send_message(chat_id=ase.telegram_user_id,
+                                                              text=str(datetime.datetime.now())[:16],
+                                                              reply_markup=reply_markup)
                             for val in counts:
                                 contentTasks.append([
-                                        InlineKeyboardButton("Bajarildi", callback_data='1'),
-                                        InlineKeyboardButton("Bajarilmadi", callback_data='0')
-                                    ])
+                                    InlineKeyboardButton("Bajarildi", callback_data=f'{task.id}-1'),
+                                    InlineKeyboardButton("Bajarilmadi", callback_data=f'{task.id}-0')
+                                ])
                                 reply_markup = InlineKeyboardMarkup(contentTasks)
                                 # update.bot.send_message()
-                                # if ase.is_staff:
-                                #     pass
-                                # else:
-                                self.updater.bot.send_message(chat_id=ase.telegram_user_id, text=str(val),
-                                                              reply_markup=reply_markup)
+                                if ase.is_staff:
+                                    pass
+                                else:
+                                    self.updater.bot.send_message(chat_id=ase.telegram_user_id, text=str(val),
+                                                                  reply_markup=reply_markup)
                                 contentTasks = []
 
-
-
-
-
-
-            keyboard = [['topshiriq yuborish']]
-            for i in groups:
-                keyboard.append([i.name])
-
-            reply_markup = ReplyKeyboardMarkup(keyboard)
-            update.message.reply_text(text="tanlang", reply_markup=reply_markup)
             # update.message.reply_text('salom')
         user.save()
-
-
 
     def delete(self, update: Update, context: CallbackContext) -> None:
         user = user_func(update)
         query = update.callback_query
         query.answer()
+        task_id = query.data[:-2]
+        qData = query.data[len(query.data)-1:]
+
         student = None
         role = 0
         if user.role.name == "Student":
@@ -131,49 +181,32 @@ class Command(BotBase):
             student = Student.objects.get(mom_telegram=user)
             role = 3
 
-        thisgroup = student.group
-        comentator = Telegaram_user.objects.filter(is_staff=1)
-        teacher = None
-        for com in comentator:
-            if thisgroup in com.groups.all():
-                teacher = com
-        task = task_func(teacher, teacher.state)
-        score = score_func(student, task)
-            # Task.objects.get(id=student.group, id=user)
-        # score.ta = task.count
-        if role == 1:
-            score.answers_fs = score.answers_fs+1
-        if role == 2:
-            score.answers_fdad = score.answers_fdad+1
-        if role == 3:
-            score.answers_fmom = score.answers_fmom+1
+        task = Task.objects.get(id=task_id)
+        print(task.tasks)
 
-        score.score = score.score+int(query.data)
+        score = score_func(student, task)
+
+        if role == 1:
+            score.answers_fs = score.answers_fs + 1
+        if role == 2:
+            score.answers_fdad = score.answers_fdad + 1
+        if role == 3:
+            score.answers_fmom = score.answers_fmom + 1
+
+        score.score = score.score + int(qData)
         score.save()
         msg = query.message.text
 
-        if query.data == '1':
-            query.edit_message_text(text=msg +"  ✅")
-        elif query.data == '0':
-            query.edit_message_text(text=msg +"  ❌")
-
-
+        if qData == '1':
+            query.edit_message_text(text=msg + "  ✅")
+        elif qData == '0':
+            query.edit_message_text(text=msg + "  ❌")
 
     def handle(self, *args, **kwargs):
         dispatcher = self.updater.dispatcher
 
         # dispatcher.add_handler(CallbackQueryHandler(self.days2, pattern="^(\d{4}\-\d{2}\-\d{2})$"))
-
-        # dispatcher.add_handler(CallbackQueryHandler(self.main_me, pattern="^(main)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.about, pattern="^(about)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.course, pattern="^(course)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.course1, pattern="^(course1)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.money, pattern="^(money)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.testing, pattern="^(testing)$"))
-        dispatcher.add_handler(CallbackQueryHandler(self.delete, pattern="^(\d{1})$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.free, pattern="^(free)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.free_edu, pattern="^(free_edu)$"))
-        # dispatcher.add_handler(CallbackQueryHandler(self.location, pattern="^(location)$"))
+        dispatcher.add_handler(CallbackQueryHandler(self.delete, pattern="^(\d{1,10}\-\d{1})$"))
         # dispatcher.add_handler(CallbackQueryHandler(self.start, pattern="^(asd\d{1})$"))
         dispatcher.add_handler(CommandHandler('start', self.language))
         # dispatcher.add_handler(CallbackQueryHandler(self.button))
