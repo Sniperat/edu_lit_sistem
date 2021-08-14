@@ -45,8 +45,9 @@ class Command(BotBase):
             ]]
             reply_markup = InlineKeyboardMarkup(content)
             text = "Iltmos suratingizni jo'nating (Selfi formad ham bo'laveradi)\n\n" \
-                   "Faqat arzirli sabab bilangina surat yuborishni bekor qiling "
-            update.message.reply_text(text, reply_markup=reply_markup)
+                    "Surat jo'natish majburiy!"
+                   # "Faqat arzirli sabab bilangina surat yuborishni bekor qiling "
+            update.message.reply_text(text)
         elif user.state == 2:
             file = update.message.photo[2].file_id
             obj = context.bot.get_file(file)
