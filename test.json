@@ -1,57 +1,31 @@
 {
-  'message_id': 1221,
-  'date': 1628882866,
-  'chat': {
-    'id': 920393608,
-    'type': 'private',
-    'username': 'just_akbarov',
-    'first_name': 'Muhammadalixon',
-    'last_name': 'Akbarov'
-  },
-  'entities': [],
-  'caption_entities': [],
-  'photo': [
-    {
-      'file_id': 'AgACAgIAAxkBAAIExWEWx7LQnszykgHtVZojnA1gE42TAAJEtjEb54q4SMU61gZ2Fi75AQADAgADcwADIAQ',
-      'file_unique_id': 'AQADRLYxG-eKuEh4',
-      'width': 90,
-      'height': 67,
-      'file_size': 956
+  'update_id': 24987698,
+  'message': {
+    'message_id': 1836,
+    'date': 1629461587,
+    'chat': {
+      'id': -433040392,
+      'type': 'group',
+      'title': 'test bot group',
+      'all_members_are_administrators': True
     },
-    {
-      'file_id': 'AgACAgIAAxkBAAIExWEWx7LQnszykgHtVZojnA1gE42TAAJEtjEb54q4SMU61gZ2Fi75AQADAgADbQADIAQ',
-      'file_unique_id': 'AQADRLYxG-eKuEhy',
-      'width': 320,
-      'height': 240,
-      'file_size': 17089
-    },
-    {
-      'file_id': 'AgACAgIAAxkBAAIExWEWx7LQnszykgHtVZojnA1gE42TAAJEtjEb54q4SMU61gZ2Fi75AQADAgADeAADIAQ',
-      'file_unique_id': 'AQADRLYxG-eKuEh9',
-      'width': 800,
-      'height': 601,
-      'file_size': 93081
-    },
-    {
-      'file_id': 'AgACAgIAAxkBAAIExWEWx7LQnszykgHtVZojnA1gE42TAAJEtjEb54q4SMU61gZ2Fi75AQADAgADeQADIAQ',
-      'file_unique_id': 'AQADRLYxG-eKuEh-',
-      'width': 1280,
-      'height': 961,
-      'file_size': 200620
+    'text': 'gh4',
+    'entities': [],
+    'caption_entities': [],
+    'photo': [],
+    'new_chat_members': [],
+    'new_chat_photo': [],
+    'delete_chat_photo': False,
+    'group_chat_created': False,
+    'supergroup_chat_created': False,
+    'channel_chat_created': False,
+    'from': {
+      'id': 920393608,
+      'first_name': 'Muhammadalixon',
+      'is_bot': False,
+      'last_name': 'Akbarov',
+      'username': 'just_akbarov',
+      'language_code': 'en'
     }
-  ],
-  'new_chat_members': [],
-  'new_chat_photo': [],
-  'delete_chat_photo': False,
-  'group_chat_created': False,
-  'supergroup_chat_created': False,
-  'channel_chat_created': False,
-  'from': {
-    'id': 920393608,
-    'first_name': 'Muhammadalixon',
-    'is_bot': False,
-    'last_name': 'Akbarov',
-    'username': 'just_akbarov',
-    'language_code': 'ru'
   }
 }

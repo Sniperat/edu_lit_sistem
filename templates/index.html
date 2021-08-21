@@ -11,12 +11,18 @@
         </div>
 
 
+
+
         <table class="table table-striped" style="">
             <thead>
             <tr>
 
                 <th scope="col">Guruh</th>
-{#                <th scope="col">Comentator</th>#}
+                <th scope="col">Yosh</th>
+                <th scope="col">Kunlar</th>
+                <th scope="col">Soat</th>
+                <th scope="col"></th>
+
 
             </tr>
             </thead>
@@ -25,6 +31,10 @@
             <tr>
 
                     <td><a href="{% url 'students' gr.id %}">{{ gr.name }}</a></td>
+                    <td><a href="{% url 'students' gr.id %}">{{ gr.yosh }}</a></td>
+                    <td><a href="{% url 'students' gr.id %}">{{ gr.kunlar }}</a></td>
+                    <td><a href="{% url 'students' gr.id %}">{{ gr.soat }}</a></td>
+                    <td><a class="btn btn-light " href="{% url 'task_list' gr.id %}">Topshiriqlar</a></td>
 {#                    <td>Otto</td>#}
 
             </tr>

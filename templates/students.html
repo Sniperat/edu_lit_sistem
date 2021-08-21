@@ -11,6 +11,15 @@
 
         </div>
 
+        <form method="post" action="{% url 'change' groups.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Kunlik topshiriqlari</label>
+                <textarea name="tasks" class="form-control" id="exampleFormControlTextarea1"
+                          rows="3">{{ groups.dailyTask }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-success mb-2">Saqlash</button>
+        </form>
 
         <table class="table table-striped" style="">
             <thead>
@@ -22,12 +31,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                {% for st in students %}
-                    <td><a href="{% url 'single_stu' st.id %}">{{ st.firstName }}  {{ st.lastName }}  {{ st.secondName }}</a></td>
-
-                {% endfor %}
-            </tr>
+            {% for st in students %}
+                <tr>
+                    <td>
+                        <a href="{% url 'single_stu' st.id %}">{{ st.firstName }} {{ st.lastName }} {{ st.secondName }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
 
             </tbody>
         </table>

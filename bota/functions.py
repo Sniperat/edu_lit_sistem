@@ -1,7 +1,19 @@
 import datetime
 
-from .models import Telegaram_user, Task, Scores
+from .models import Telegaram_user, Task, Scores, Student
+from .models import Telegram_guruxlar
 
+
+def telegram_group_func(update):
+    try:
+        user = Telegram_guruxlar.objects.get(group_id=update.message.chat.id)
+    except:
+        user = Telegram_guruxlar(
+            name=update.message.chat.title,
+            group_id=update.message.chat.id
+        )
+        user.save()
+    return user
 
 def user_func(update):
     try:
@@ -34,3 +46,12 @@ def last_task_off(group):
     for t in Task.objects.filter(state=0, group=group):
         t.state = 1
         t.save()
+
+
+def student_func(user):
+    try:
+        asd = Student.objects.get(self_telegram=user)
+    except:
+        asd = Student(self_telegram=user)
+        asd.save()
+    return asd

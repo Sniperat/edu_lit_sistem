@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-between my-2" >
+            <div class="h2">Topshiriqlar</div>
+            <div class="h2">{{ groups.name }}</div>
+            <div class="">
+                <a class="btn btn-primary" href="/admin/">admin</a>
+            </div>
+
+        </div>
+
+        {% for student in students %}
+            <div class="h4 text-secondary"><a href="{% url 'single_stu' student.id %}">{{ student.firstName }} {{ student.lastName }}</a></div>
+            <div style="overflow-x: scroll !important;" class="my-3">
+            <table class="table table-bordered "  >
+                <thead >
+                <tr>
+                    <th scope="col">#</th>
+                    {% for i in tasks %}
+                        <th scope="col" style="white-space: nowrap">{{ i.created_day.date }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Talaba</th>
+                    {% for score in answers %}
+                        {% if score.student == student %}
+                            <td>{{ score.score_fs }}</td>
+                            {% else %}
+                            <td>none</td>
+                        {% endif %}
+                    {% endfor %}
+
+{#                    <td>Otto</td>#}
+{#                    <td>@mdo</td>#}
+                </tr>
+                <tr>
+                    <th scope="row">Ona</th>
+                    {% for score in answers %}
+                        {% if score.student == student %}
+                            <td>{{ score.score_fmom }}</td>
+                        {% else %}
+                            <td>none</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th scope="row">Ota</th>
+                    {% for score in answers %}
+                        {% if score.student == student %}
+                            <td>{{ score.score_fdad }}</td>
+                        {% else %}
+                            <td>none</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        {% endfor %}
+
+
+    </div>
+{% endblock %}

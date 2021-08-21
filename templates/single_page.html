@@ -4,37 +4,133 @@
     <div class="container">
         <div class="row mt-5">
             <div class="col-6">
-                <div class="d-flex border p-4 justify-content-between">
+                <h2>Student</h2>
+                <div class="d-flex border p-2 justify-content-between">
                     <div>First Name</div>
                     <div>{{ student.firstName }}</div>
                 </div>
-                <div class="d-flex border p-4 justify-content-between">
+                <div class="d-flex border p-2 justify-content-between">
                     <div>LastName</div>
                     <div>{{ student.lastName }}</div>
                 </div>
-                <div class="d-flex border p-4 justify-content-between">
+                <div class="d-flex border p-2 justify-content-between">
                     <div>SecondName</div>
                     <div>{{ student.secondName }}</div>
                 </div>
-                <div class="d-flex border p-4 justify-content-between">
+                <div class="d-flex border p-2 justify-content-between">
+                    <div>Address</div>
+                    <div>{{ student.address }}</div>
+                </div>
+                <div class="d-flex border p-2 justify-content-between">
                     <div>Group</div>
                     <div>{{ student.group }}</div>
                 </div>
-                <div class="d-flex border p-4 justify-content-between">
-                    <div>Self telegram</div>
-                    <div>{{ student.self_telegram.fullName }}</div>
+                <div class="d-flex border p-2 justify-content-center">
+                    <img class="img-fluid" width="300px" src="{{ student.self_telegram.photo.url }}">
                 </div>
-                <div class="d-flex border p-4 justify-content-between">
-                    <div>Mom telegram</div>
-                    <div>{{ student.mom_telegram.fullName }}</div>
-                </div>
-                <div class="d-flex border p-4 justify-content-between">
-                    <div>Dad telegram</div>
-                    <div>{{ student.dad_telegram.fullName }}</div>
-                </div>
+
 
             </div>
+            <div class="col-6">
+                <div class="row mb-5">
 
+                    <div class="col-6">
+                        <h2>Father</h2>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>First Name</div>
+                            <div>{{ student.dad_telegram.firstName }}</div>
+                        </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>LastName</div>
+                            <div>{{ student.dad_telegram.lastName }}</div>
+                        </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>SecondName</div>
+                            <div>{{ student.dad_telegram.secondName }}</div>
+                        </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>Address</div>
+                            <div>{{ student.dad_telegram.address }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <img class="img-fluid" width="200px" src="{{ student.dad_telegram.photo.url }}">
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-6">
+                        <h2>Mother</h2>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>First Name</div>
+                            <div>{{ student.mom_telegram.firstName }}</div>
+                        </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>LastName</div>
+                            <div>{{ student.mom_telegram.lastName }}</div>
+                        </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>SecondName</div>
+                            <div>{{ student.mom_telegram.secondName }}</div>
+                        </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                            <div>Address</div>
+                            <div>{{ student.mom_telegram.address }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <img class="img-fluid" width="200px" src="{{ student.mom_telegram.photo.url }}">
+                    </div>
+                </div>
+            </div>
         </div>
+{#        <div class="my-3"><a class="btn btn-block btn-dark text-light">asdas</a></div>#}
     </div>
+
+
+
+    <div class="container my-3">
+    <canvas id="line-chart" width="800" height="350"></canvas>
+    </div>
+
+
+
+
+{% endblock %}
+{% block js %}
+    <script>
+    var date = {{ date_list|safe }};
+    var self = {{ self_list|safe }};
+    var mom = {{ mom_list|safe }};
+    var dad = {{ dad_list|safe }};
+   new Chart(document.getElementById("line-chart"), {
+  type: 'line',
+  data: {
+    labels: date,
+    datasets: [{
+        data: self,
+        label: "Talaba",
+        borderColor: "#3e95cd",
+        fill: false
+      }, {
+        data: dad,
+        label: "Ota",
+        borderColor: "#8e5ea2",
+        fill: false
+      }, {
+        data: mom,
+        label: "Ona",
+        borderColor: "#3cba9f",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'World population per region (in millions)'
+    }
+  }
+});
+    </script>
 {% endblock %}
