@@ -31,7 +31,7 @@ class Study_groups(models.Model):
     kunlar = models.CharField(max_length=255, null=True)
     soat = models.CharField(max_length=255, null=True)
     dailyTask = models.TextField(null=True, blank=True)
-    telegram_group = models.ForeignKey('Telegram_guruxlar', on_delete=models.CASCADE)
+    telegram_group = models.ForeignKey('Telegram_guruxlar', on_delete=models.CASCADE, null=True, blank=True)
     mertor = models.ForeignKey(Telegaram_user, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
