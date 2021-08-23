@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import Group
 
 Group.add_to_class('description', models.CharField(max_length=255, null=True, blank=True))
-Group.add_to_class('another_name', models.CharField(max_length=255, null=True, blank=True))
 
 
 class Telegaram_user(models.Model):
