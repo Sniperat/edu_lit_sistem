@@ -4,8 +4,6 @@
     <list default="true" id="5bdf33d3-942a-4ef6-b4a1-09c90c42db69" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bota/management/commands/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bota/management/commands/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bota/management/commands/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/bota/management/commands/note.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bota/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bota/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +85,7 @@
       <workItem from="1629480528290" duration="9621000" />
       <workItem from="1629543752753" duration="5331000" />
       <workItem from="1629627001629" duration="521000" />
-      <workItem from="1629718275065" duration="4232000" />
+      <workItem from="1629718275065" duration="4898000" />
     </task>
     <servers />
   </component>

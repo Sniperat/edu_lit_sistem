@@ -88,14 +88,16 @@ class Command(BotBase):
                 user.state = 8
                 user.save()
                 text = "Men ..."
-                grp =  Group.objects.all()
+                grp = Group.objects.all()
                 content = []
                 for i in grp:
                     content.append([
                         InlineKeyboardButton(i.description, callback_data='role{}'.format(i.id))
                     ])
                 reply_markup = InlineKeyboardMarkup(content)
-                update.message.reply_text(text, reply_markup=reply_markup)
+                # update.message.reply_text(text, reply_markup=reply_markup)
+                self.updater.bot.send_message(chat_id=user.telegram_user_id,
+                                              text=text, reply_markup=reply_markup)
 
             elif not user.is_staff and msg == "comment":
                 user.state = 909
