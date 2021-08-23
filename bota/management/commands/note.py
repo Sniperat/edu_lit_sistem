@@ -13,7 +13,7 @@ class Command(BotBase):
 
         for i in Study_groups.objects.all():
             students = Student.objects.filter(group=i)
-            ansverst_to_group = '{}\nStudent name   self, father, mother'.format(i.name)
+            ansverst_to_group = '{}\nStudent name   talaba, erkak vakil, ayol vakil'.format(i.name)
             for stu in students:
                 try:
                     scores = Scores.objects.get(task__state=0, student=stu)
@@ -21,7 +21,10 @@ class Command(BotBase):
                                                                     scores.score_fdad, scores.score_fmom)
                 except:
                     pass
-            self.updater.bot.send_message(chat_id=i.telegram_group.group_id, text=ansverst_to_group)
+            try:
+                self.updater.bot.send_message(chat_id=i.telegram_group.group_id, text=ansverst_to_group)
+            except:
+                pass
             taskb = Task.objects.filter(state=0)
             for tas in taskb:
                 tas.state = 1

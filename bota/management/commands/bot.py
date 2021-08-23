@@ -53,6 +53,18 @@ class Command(BotBase):
                 user.save()
                 text = 'telefon raqamingizni kiriting'
                 update.message.reply_text(text)
+            elif user.state == 11 or user.state == 12:
+                user.role_name = msg
+                user.save()
+                text = "Farzandingiz o'qiydigan guruhni tanlang"
+                sg = Study_groups.objects.all()
+                content = []
+                for i in sg:
+                    content.append([
+                        InlineKeyboardButton(i.name, callback_data='group{}'.format(i.id))
+                    ])
+                reply_markup = InlineKeyboardMarkup(content)
+                update.message.reply_text(text, reply_markup=reply_markup)
             elif user.state == 6:
                 user.phone = msg
                 user.state = 7
@@ -75,12 +87,12 @@ class Command(BotBase):
                 user.photo = ImageFile(open(img, "rb"))
                 user.state = 8
                 user.save()
-                text = "Vazifangiz"
+                text = "Men ..."
                 grp =  Group.objects.all()
                 content = []
                 for i in grp:
                     content.append([
-                        InlineKeyboardButton(i.name, callback_data='role{}'.format(i.id))
+                        InlineKeyboardButton(i.description, callback_data='role{}'.format(i.id))
                     ])
                 reply_markup = InlineKeyboardMarkup(content)
                 update.message.reply_text(text, reply_markup=reply_markup)
@@ -302,27 +314,37 @@ class Command(BotBase):
             query.edit_message_text(text, reply_markup=reply_markup)
             user.state = 77
         elif gruppa.name == 'Father':
+
             user.state = 11
-            text = "Farzandingiz o'qiydigan guruhni tanlang"
-            sg = Study_groups.objects.all()
-            content = []
-            for i in sg:
-                content.append([
-                    InlineKeyboardButton(i.name, callback_data='group{}'.format(i.id))
-                ])
-            reply_markup = InlineKeyboardMarkup(content)
-            query.edit_message_text(text, reply_markup=reply_markup)
+            text = "Iltimos Talabaga kim ekanligingizni yozing"
+            query.edit_message_text(text)
+            #todo
+            # text = "Farzandingiz o'qiydigan guruhni tanlang"
+            # sg = Study_groups.objects.all()
+            # content = []
+            # for i in sg:
+            #     content.append([
+            #         InlineKeyboardButton(i.name, callback_data='group{}'.format(i.id))
+            #     ])
+            # reply_markup = InlineKeyboardMarkup(content)
+            # query.edit_message_text(text, reply_markup=reply_markup)
         elif gruppa.name == 'Mother':
+
             user.state = 12
-            text = "Farzandingiz o'qiydigan guruhni tanlang"
-            sg = Study_groups.objects.all()
-            content = []
-            for i in sg:
-                content.append([
-                    InlineKeyboardButton(i.name, callback_data='group{}'.format(i.id))
-                ])
-            reply_markup = InlineKeyboardMarkup(content)
-            query.edit_message_text(text, reply_markup=reply_markup)
+            text = "Iltimos Talabaga kim ekanligingizni yozing"
+            query.edit_message_text(text)
+
+            # text = "Iltimos Talabaga kim ekanligingizni yozing"
+            # todo
+            # text = "Farzandingiz o'qiydigan guruhni tanlang"
+            # sg = Study_groups.objects.all()
+            # content = []
+            # for i in sg:
+            #     content.append([
+            #         InlineKeyboardButton(i.name, callback_data='group{}'.format(i.id))
+            #     ])
+            # reply_markup = InlineKeyboardMarkup(content)
+            # query.edit_message_text(text, reply_markup=reply_markup)
         elif gruppa.name == 'Teacher':
             query.message.delete()
             keyboard = [["E'lon"]]

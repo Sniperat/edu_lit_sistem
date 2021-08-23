@@ -1,8 +1,9 @@
 from django.contrib.auth.models import Group
 from django.db import models
+from django.contrib.auth.models import Group
 
-
-# Create your models here.
+Group.add_to_class('description', models.CharField(max_length=255, null=True, blank=True))
+Group.add_to_class('another_name', models.CharField(max_length=255, null=True, blank=True))
 
 
 class Telegaram_user(models.Model):
@@ -20,6 +21,7 @@ class Telegaram_user(models.Model):
     is_staff = models.BooleanField(default=False)
     state = models.IntegerField(default=STATE_FULLNAME, null=True)
     role = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+    role_name = models.CharField(max_length=255, default=None, null=True, blank=True)
 
     def __str__(self):
         return self.firstName + " " + self.lastName + " " + self.secondName
