@@ -2,15 +2,10 @@ import json
 
 from django.shortcuts import render, redirect
 from bota.models import *
-from django.contrib.auth.models import Group
 # Create your views here.
 
 
 def index(request):
-    hammasi = Group.objects.all()
-    for i in hammasi:
-        i.description = 'asd'
-        i.save()
     groups = Study_groups.objects.all()
     return render(request, 'index.html', {
         'groups': groups
