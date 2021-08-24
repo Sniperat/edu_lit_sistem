@@ -38,7 +38,7 @@
 {#                    <td>@mdo</td>#}
                 </tr>
                 <tr>
-                    <th scope="row">Ona</th>
+                    <th scope="row">{{ student.mom_telegram.role_name }}</th>
                     {% for score in answers %}
                         {% if score.student == student %}
                             <td>{{ score.score_fmom }}</td>
@@ -48,7 +48,7 @@
                     {% endfor %}
                 </tr>
                 <tr>
-                    <th scope="row">Ota</th>
+                    <th scope="row">{{ student.dad_telegram.role_name }}</th>
                     {% for score in answers %}
                         {% if score.student == student %}
                             <td>{{ score.score_fdad }}</td>

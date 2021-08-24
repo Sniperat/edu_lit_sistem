@@ -22,6 +22,10 @@
                     <div>{{ student.address }}</div>
                 </div>
                 <div class="d-flex border p-2 justify-content-between">
+                    <div>Phone</div>
+                    <div>{{ student.self_telegram.phone }}</div>
+                </div>
+                <div class="d-flex border p-2 justify-content-between">
                     <div>Group</div>
                     <div>{{ student.group }}</div>
                 </div>
@@ -35,7 +39,7 @@
                 <div class="row mb-5">
 
                     <div class="col-6">
-                        <h2>Father</h2>
+                        <h2>{{ student.dad_telegram.role_name }}</h2>
                         <div class="d-flex border p-2 justify-content-between">
                             <div>First Name</div>
                             <div>{{ student.dad_telegram.firstName }}</div>
@@ -52,6 +56,10 @@
                             <div>Address</div>
                             <div>{{ student.dad_telegram.address }}</div>
                         </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                    <div>Phone</div>
+                    <div>{{ student.dad_telegram.phone }}</div>
+                </div>
                     </div>
                     <div class="col-6">
                         <img class="img-fluid" width="200px" src="{{ student.dad_telegram.photo.url }}">
@@ -60,7 +68,7 @@
                 <div class="row">
 
                     <div class="col-6">
-                        <h2>Mother</h2>
+                        <h2>{{ student.mom_telegram.role_name }}</h2>
                         <div class="d-flex border p-2 justify-content-between">
                             <div>First Name</div>
                             <div>{{ student.mom_telegram.firstName }}</div>
@@ -77,6 +85,10 @@
                             <div>Address</div>
                             <div>{{ student.mom_telegram.address }}</div>
                         </div>
+                        <div class="d-flex border p-2 justify-content-between">
+                    <div>Phone</div>
+                    <div>{{ student.mom_telegram.phone }}</div>
+                </div>
                     </div>
                     <div class="col-6">
                         <img class="img-fluid" width="200px" src="{{ student.mom_telegram.photo.url }}">
@@ -95,10 +107,14 @@
 
 
 
-
+<div id="man" style="display: none">{{ student.dad_telegram.role_name|safe }}</div>
+<div id="woman"  style="display: none">{{ student.mom_telegram.role_name|safe }}</div>
+<div></div>
 {% endblock %}
 {% block js %}
     <script>
+    var woman = $('#woman').html();
+    var man = $('#man').html();
     var date = {{ date_list|safe }};
     var self = {{ self_list|safe }};
     var mom = {{ mom_list|safe }};
@@ -114,12 +130,12 @@
         fill: false
       }, {
         data: dad,
-        label: "Ota",
+        label: man,
         borderColor: "#8e5ea2",
         fill: false
       }, {
         data: mom,
-        label: "Ona",
+        label: woman,
         borderColor: "#3cba9f",
         fill: false
       }
