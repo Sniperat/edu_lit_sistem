@@ -11,7 +11,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
 
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -127,10 +134,7 @@ STATIC_ROOT = BASE_DIR / "static"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-BOT_TOKEN = '1928420855:AAHZzWz13qnnXol8nD-61-zGeOZHAPjlvQo'
-    # '1912846455:AAFQAojdIqH_CesUggcDakYT3WFkr2XqNI4'
-    # '1928420855:AAGSbJk_ZMHjDOEWi1ESdhAqfumkJGhvjjE'
-
+BOT_TOKEN = env('BOTTOKEN')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
