@@ -239,13 +239,22 @@ class Command(BotBase):
         student = None
         role = 0
         if user.role.name == "Student":
-            student = Student.objects.get(self_telegram=user)
+            try:
+                student = Student.objects.get(self_telegram=user)
+            except:
+                pass
             role = 1
         if user.role.name == "Father":
-            student = Student.objects.get(dad_telegram=user)
+            try:
+                student = Student.objects.get(dad_telegram=user)
+            except:
+                pass
             role = 2
         if user.role.name == "Mother":
-            student = Student.objects.get(mom_telegram=user)
+            try:
+                student = Student.objects.get(mom_telegram=user)
+            except:
+                pass
             role = 3
 
         task = Task.objects.get(id=task_id)

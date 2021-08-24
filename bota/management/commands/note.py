@@ -48,10 +48,10 @@ class Command(BotBase):
                         self.updater.bot.send_message(chat_id=s.self_telegram.telegram_user_id,
                                                   text=str(datetime.datetime.now())[:16],
                                                   reply_markup=reply_markup)
-                        self.updater.bot.send_message(chat_id= s.mom_telegram.telegram_user_id,
+                        self.updater.bot.send_message(chat_id=s.mom_telegram.telegram_user_id,
                                                   text=str(datetime.datetime.now())[:16],
                                                   reply_markup=reply_markup)
-                        self.updater.bot.send_message(chat_id= s.dad_telegram.telegram_user_id,
+                        self.updater.bot.send_message(chat_id=s.dad_telegram.telegram_user_id,
                                                   text=str(datetime.datetime.now())[:16],
                                                   reply_markup=reply_markup)
                     except:
