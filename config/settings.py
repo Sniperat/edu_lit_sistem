@@ -129,7 +129,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = '1928420855:AAGSbJk_ZMHjDOEWi1ESdhAqfumkJGhvjjE'
     # '1912846455:AAFQAojdIqH_CesUggcDakYT3WFkr2XqNI4'
-    # '1932236995:AAHZ-8x0bCguCE3XH8mu92MEkByAOtkzuB0'
+    # '1928420855:AAGSbJk_ZMHjDOEWi1ESdhAqfumkJGhvjjE'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"

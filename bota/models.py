@@ -23,7 +23,7 @@ class Telegaram_user(models.Model):
     role_name = models.CharField(max_length=255, default=None, null=True, blank=True)
 
     def __str__(self):
-        return self.firstName + " " + self.lastName + " " + self.secondName
+        return str(self.firstName) + " " + str(self.lastName) + " " + str(self.secondName)
 
 
 class Study_groups(models.Model):
