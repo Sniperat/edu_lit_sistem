@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5bdf33d3-942a-4ef6-b4a1-09c90c42db69" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bota/management/commands/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bota/management/commands/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tasks_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tasks_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +90,10 @@
       <workItem from="1629778854935" duration="2803000" />
       <workItem from="1629798465495" duration="1987000" />
       <workItem from="1629807787797" duration="13000" />
-      <workItem from="1629809985280" duration="641000" />
+      <workItem from="1629809985280" duration="1431000" />
+      <workItem from="1629812717808" duration="601000" />
+      <workItem from="1629893366992" duration="114000" />
+      <workItem from="1629904864312" duration="6134000" />
     </task>
     <servers />
   </component>

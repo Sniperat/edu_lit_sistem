@@ -99,10 +99,10 @@ class Command(BotBase):
                 self.updater.bot.send_message(chat_id=user.telegram_user_id,
                                               text=text, reply_markup=reply_markup)
 
-            elif not user.is_staff and msg == "comment":
+            elif not user.is_staff and msg == "izoh qoldirish" and user.state == 77:
                 user.state = 909
                 user.save()
-                update.message.reply_text("Comment jo'nating")
+                update.message.reply_text("O'z izohlaringiz bilan bo'lishing")
             elif not user.is_staff and user.state == 909:
 
                 student = None
@@ -114,7 +114,7 @@ class Command(BotBase):
                     student = Student.objects.get(mom_telegram=user)
 
 
-                text = f"{student.group.name} {student.firstName} {student.lastName} from {user.role}"
+                text = f"{student.group.name} {student.firstName} {student.lastName} from {user.role_name}"
                 self.updater.bot.send_message(chat_id=student.group.mertor.telegram_user_id,
                                               text=text)
                 self.updater.bot.forward_message(chat_id=student.group.mertor.telegram_user_id,
@@ -207,7 +207,7 @@ class Command(BotBase):
                 #                 if ase.is_staff:
                 #                     pass
                 #                 else:
-                #                     keyboard = [['comment']]
+                #                     keyboard = [['izoh qoldirish']]
                 #                     reply_markup = ReplyKeyboardMarkup(keyboard)
                 #                     self.updater.bot.send_message(chat_id=ase.telegram_user_id,
                 #                                                   text=str(datetime.datetime.now())[:16],
@@ -327,8 +327,13 @@ class Command(BotBase):
         elif gruppa.name == 'Father':
 
             user.state = 11
-            text = "Iltimos Talabaga kim ekanligingizni yozing"
-            query.edit_message_text(text)
+            content = [[
+                        InlineKeyboardButton("Men farzandim nomidan to'dirdim", callback_data='stufparent')
+                    ]]
+            reply_markup = InlineKeyboardMarkup(content)
+            text = "Iltimos Talabaga kim ekanligingizni yozing \n\n Agar Farzandingiz telefon ishlatmasa " \
+                   "va siz malumotlarni uning nomidan to'ldirgan bo'lsangiz pastagi tugmani bosing"
+            query.edit_message_text(text, reply_markup=reply_markup)
             #todo
             # text = "Farzandingiz o'qiydigan guruhni tanlang"
             # sg = Study_groups.objects.all()
@@ -342,8 +347,13 @@ class Command(BotBase):
         elif gruppa.name == 'Mother':
 
             user.state = 12
-            text = "Iltimos Talabaga kim ekanligingizni yozing"
-            query.edit_message_text(text)
+            content = [[
+                InlineKeyboardButton("Men farzandim nomidan to'dirdim", callback_data='stufparent')
+            ]]
+            reply_markup = InlineKeyboardMarkup(content)
+            text = "Iltimos Talabaga kim ekanligingizni yozing \n\n Agar Farzandingiz telefon ishlatmasa " \
+                   "va siz malumotlarni uning nomidan to'ldirgan bo'lsangiz pastagi tugmani bosing"
+            query.edit_message_text(text=text, reply_markup=reply_markup)
 
             # text = "Iltimos Talabaga kim ekanligingizni yozing"
             # todo
@@ -383,14 +393,14 @@ class Command(BotBase):
             student = student_func(user)
             student.group = gruppa
             student.save()
-            keyboard = [['comment']]
+            keyboard = [['izoh qoldirish']]
             query.message.delete()
             reply_markup = ReplyKeyboardMarkup(keyboard)
             text = "Ro'yhatdan o'tish muoffaqqiyatli yakunlandi"
             self.updater.bot.send_message(chat_id=user.telegram_user_id, text=text, reply_markup=reply_markup)
             # query.edit_message_text(text, )
         else:
-            text = "Farzandingiz o'qiydigan guruhni tanlang"
+            text = "Ro'yxatdan farzandingizni belgilang"
             sg = Student.objects.filter(group=gruppa)
             content = []
             for i in sg:
@@ -412,8 +422,10 @@ class Command(BotBase):
         elif user.state == 12:
             stud.mom_telegram = user
         stud.save()
+        user.state = 77
+        user.save()
         query.message.delete()
-        keyboard = [['comment']]
+        keyboard = [['izoh qoldirish']]
         reply_markup = ReplyKeyboardMarkup(keyboard)
         text = "Ro'yhatdan o'tish muoffaqqiyatli yakunlandi"
         self.updater.bot.send_message(chat_id=user.telegram_user_id, text=text,
@@ -422,6 +434,48 @@ class Command(BotBase):
         # update.message.reply_text(text)
         # query.edit_message_text(text, reply_markup=reply_markup)
 
+    def stufparent(self, update: Update, context: CallbackContext) -> None:
+        query = update.callback_query
+        query.answer()
+        text = "Farzandingiz guruhini tanlang"
+        sg = Study_groups.objects.all()
+        content = []
+        for i in sg:
+            content.append([
+                InlineKeyboardButton(i.name, callback_data='groupv2{}'.format(i.id))
+            ])
+        reply_markup = InlineKeyboardMarkup(content)
+        query.edit_message_text(text, reply_markup=reply_markup)
+
+    def groupv2(self, update: Update, context: CallbackContext) -> None:
+        query = update.callback_query
+        query.answer()
+        pk = query.data[7:]
+        print(pk)
+        gruppa = Study_groups.objects.get(id=int(pk))
+        user = user_func(update)
+        newstudent = Student()
+        newstudent.firstName = ''.join(user.firstName),
+        newstudent.lastName = ''.join(user.lastName),
+        newstudent.secondName = ''.join(user.secondName),
+        newstudent.address = ''.join(user.address),
+        newstudent.group = gruppa
+        
+
+        newstudent.save()
+
+        newstudent.firstName = ''.join(newstudent.firstName)
+        newstudent.lastName = ''.join(newstudent.lastName)
+        newstudent.secondName = ''.join(newstudent.secondName)
+        newstudent.address = ''.join(newstudent.address)
+        newstudent.save()
+        user.state = 0
+        user.save()
+
+        query.edit_message_text('Farzandingiz malumotlari saqlandi!\n\nEndi iltmos shaxsiy malumotlaringizni qaytadan '
+                                'kiriting va oz shaxsingizni tasdiqlang')
+        self.updater.bot.send_message(chat_id=user.telegram_user_id,
+                                      text='ismingizni kiriting')
 
 
 
@@ -432,8 +486,10 @@ class Command(BotBase):
         # dispatcher.add_handler(CallbackQueryHandler(self.days2, pattern="^(\d{4}\-\d{2}\-\d{2})$"))
         dispatcher.add_handler(CallbackQueryHandler(self.delete, pattern="^(\d{1,10}\-\d{1})$"))
         dispatcher.add_handler(CallbackQueryHandler(self.dec, pattern="^(bekor qilish)$"))
+        dispatcher.add_handler(CallbackQueryHandler(self.stufparent, pattern="^(stufparent)$"))
         dispatcher.add_handler(CallbackQueryHandler(self.contin, pattern="^(role\d{1})$"))
         dispatcher.add_handler(CallbackQueryHandler(self.group, pattern="^(group\d{1,10})$"))
+        dispatcher.add_handler(CallbackQueryHandler(self.groupv2, pattern="^(groupv2\d{1,10})$"))
         dispatcher.add_handler(CallbackQueryHandler(self.stud_f_p, pattern="^(studfp\d{1,10})$"))
         # dispatcher.add_handler(CallbackQueryHandler(self.start, pattern="^(asd\d{1})$"))
         dispatcher.add_handler(CommandHandler('start', self.language))
