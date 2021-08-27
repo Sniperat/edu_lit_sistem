@@ -15,10 +15,36 @@ def index(request):
 def students(request, pk):
     groups = Study_groups.objects.get(id=pk)
     students = Student.objects.filter(group=groups)
-    sorted(students)
+    asd = []
+    for i in students:
+        asd.append(
+            {'obj': i, 'min': min([i.all_score_f_self, i.all_score_f_mom, i.all_score_f_dad])}
+        )
+
+    newlist = sorted(asd, key=lambda k: k['min'])
+    print(newlist)
+    finallist = []
+    for i in newlist:
+        finallist.append(i['obj'])
     return render(request, 'students.html', {
         'groups': groups,
-        'students': students
+        'students': finallist
+    })
+
+def all_students(request):
+    students = Student.objects.all()
+    asd = []
+    for i in students:
+        asd.append(
+            {'obj': i, 'min': min([i.all_score_f_self, i.all_score_f_mom, i.all_score_f_dad])}
+        )
+    newlist = sorted(asd, key=lambda k: k['min'])
+    print(newlist)
+    finallist = []
+    for i in newlist:
+        finallist.append(i['obj'])
+    return render(request, 'all_students_list.html', {
+        'students': finallist
     })
 
 

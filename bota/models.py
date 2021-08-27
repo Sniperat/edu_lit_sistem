@@ -34,6 +34,7 @@ class Study_groups(models.Model):
     dailyTask = models.TextField(null=True, blank=True)
     telegram_group = models.ForeignKey('Telegram_guruxlar', on_delete=models.CASCADE, null=True, blank=True)
     mertor = models.ForeignKey(Telegaram_user, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name
