@@ -27,8 +27,16 @@ class Command(BotBase):
     def message_handler(self, update: Update, context: CallbackContext) -> None:
         user = user_func(update)
         msg = str(update.message.text)
-
-        if update.message.chat.type == 'group':
+        wro = 0
+        for i in msg:
+            o = ord(i)
+            if (not (o == 32)) and (not (o == 39)) and (not (o == 96)) and (not (48 <= o <= 57)) and (not (65 <= o <= 90)) and (not (97 <= o <= 122)):
+                print('jopa', i)
+                wro = 1
+        if wro == 1:
+            text = 'Iltmos faqat lotin alifbosidan foydalaning.'
+            update.message.reply_text(text)
+        elif update.message.chat.type == 'group':
             telegram_group_func(update)
         else:
             text = ''
@@ -94,6 +102,7 @@ class Command(BotBase):
                     content.append([
                         InlineKeyboardButton(i.description, callback_data='role{}'.format(i.id))
                     ])
+                content.append([InlineKeyboardButton("Men farzandim nomidan to'dirdim", callback_data='stufparent')])
                 reply_markup = InlineKeyboardMarkup(content)
                 # update.message.reply_text(text, reply_markup=reply_markup)
                 self.updater.bot.send_message(chat_id=user.telegram_user_id,
@@ -327,13 +336,9 @@ class Command(BotBase):
         elif gruppa.name == 'Father':
 
             user.state = 11
-            content = [[
-                        InlineKeyboardButton("Men farzandim nomidan to'dirdim", callback_data='stufparent')
-                    ]]
-            reply_markup = InlineKeyboardMarkup(content)
-            text = "Iltimos Talabaga kim ekanligingizni yozing \n\n Agar Farzandingiz telefon ishlatmasa " \
-                   "va siz malumotlarni uning nomidan to'ldirgan bo'lsangiz pastagi tugmani bosing"
-            query.edit_message_text(text, reply_markup=reply_markup)
+
+            text = "Iltimos Talabaga kim ekanligingizni yozing"
+            query.edit_message_text(text)
             #todo
             # text = "Farzandingiz o'qiydigan guruhni tanlang"
             # sg = Study_groups.objects.all()
@@ -347,13 +352,8 @@ class Command(BotBase):
         elif gruppa.name == 'Mother':
 
             user.state = 12
-            content = [[
-                InlineKeyboardButton("Men farzandim nomidan to'dirdim", callback_data='stufparent')
-            ]]
-            reply_markup = InlineKeyboardMarkup(content)
-            text = "Iltimos Talabaga kim ekanligingizni yozing \n\n Agar Farzandingiz telefon ishlatmasa " \
-                   "va siz malumotlarni uning nomidan to'ldirgan bo'lsangiz pastagi tugmani bosing"
-            query.edit_message_text(text=text, reply_markup=reply_markup)
+            text = "Iltimos Talabaga kim ekanligingizni yozing"
+            query.edit_message_text(text)
 
             # text = "Iltimos Talabaga kim ekanligingizni yozing"
             # todo

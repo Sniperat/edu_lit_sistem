@@ -54,6 +54,9 @@ class Student(models.Model):
     dad_telegram = models.ForeignKey(Telegaram_user, on_delete=models.RESTRICT, null=True,
                                      blank=True,
                                      related_name='fatherTelegram')
+    all_score_f_self = models.IntegerField(default=0)
+    all_score_f_dad = models.IntegerField(default=0)
+    all_score_f_mom = models.IntegerField(default=0)
 
     def __str__(self):
         return self.firstName + " " + self.lastName

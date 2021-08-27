@@ -8,9 +8,7 @@
             <div class="">
                 <a class="btn btn-primary" href="/admin/">admin</a>
             </div>
-
         </div>
-
         <form method="post" action="{% url 'change' groups.id %}">
             {% csrf_token %}
             <div class="form-group">
@@ -20,14 +18,16 @@
             </div>
             <button type="submit" class="btn btn-success mb-2">Saqlash</button>
         </form>
-
         <table class="table table-striped" style="">
             <thead>
             <tr>
+                <th scope="col">Studentlar</th>
 
-                <th scope="col">Students</th>
+                <th scope="col">O'zining umumiy bali</th>
 
+                <th scope="col">Otaning umumiy bali</th>
 
+                <th scope="col">Onasining umumiy bali</th>
             </tr>
             </thead>
             <tbody>
@@ -36,9 +36,17 @@
                     <td>
                         <a href="{% url 'single_stu' st.id %}">{{ st.firstName }} {{ st.lastName }} {{ st.secondName }}</a>
                     </td>
+                    <td class="text-center">
+                        {{ st.all_score_f_self }}
+                    </td>
+                    <td class="text-center">
+                        {{ st.all_score_f_dad }}
+                    </td>
+                    <td class="text-center">
+                        {{ st.all_score_f_mom }}
+                    </td>
                 </tr>
             {% endfor %}
-
             </tbody>
         </table>
     </div>

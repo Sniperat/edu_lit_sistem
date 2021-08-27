@@ -15,6 +15,7 @@ def index(request):
 def students(request, pk):
     groups = Study_groups.objects.get(id=pk)
     students = Student.objects.filter(group=groups)
+    sorted(students)
     return render(request, 'students.html', {
         'groups': groups,
         'students': students

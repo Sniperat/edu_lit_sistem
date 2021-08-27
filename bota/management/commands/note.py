@@ -19,6 +19,10 @@ class Command(BotBase):
                     scores = Scores.objects.get(task__state=0, student=stu)
                     ansverst_to_group += '\n{} - {}, {}, {}'.format(stu.firstName+" "+stu.lastName, scores.score_fs,
                                                                     scores.score_fdad, scores.score_fmom)
+                    stu.all_score_f_self += scores.score_fs
+                    stu.all_score_f_dad += scores.score_fdad
+                    stu.all_score_f_mom += scores.score_fmom
+                    stu.save()
                 except:
                     pass
             try:
