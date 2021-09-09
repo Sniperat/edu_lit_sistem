@@ -6,7 +6,11 @@ from bota.models import *
 
 
 def index(request):
-    groups = Study_groups.objects.all()
+    groups = None
+    try:
+        groups = Study_groups.objects.all()
+    except:
+        pass
     return render(request, 'index.html', {
         'groups': groups
     })
