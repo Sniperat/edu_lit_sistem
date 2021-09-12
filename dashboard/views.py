@@ -5,7 +5,10 @@ from bota.models import *
 # Create your views here.
 
 
+
 def index(request):
+    if not request.user.is_superuser:
+        return redirect('users:login')
     groups = None
     try:
         groups = Study_groups.objects.all()
@@ -17,6 +20,8 @@ def index(request):
 
 
 def students(request, pk):
+    if not request.user.is_superuser:
+        return redirect('users:login')
     groups = Study_groups.objects.get(id=pk)
     students = Student.objects.filter(group=groups)
     asd = []
@@ -36,6 +41,8 @@ def students(request, pk):
     })
 
 def all_students(request):
+    if not request.user.is_superuser:
+        return redirect('users:login')
     students = Student.objects.all()
     asd = []
     for i in students:
@@ -53,6 +60,8 @@ def all_students(request):
 
 
 def single_stu(request, pk):
+    if not request.user.is_superuser:
+        return redirect('users:login')
     student = Student.objects.get(id=pk)
     answers = Scores.objects.filter(student=student).order_by('task_id')
     date_list = []
@@ -79,6 +88,8 @@ def single_stu(request, pk):
 
 
 def change_task(request, pk):
+    if not request.user.is_superuser:
+        return redirect('users:login')
     groups = Study_groups.objects.get(id=pk)
     groups.dailyTask = request.POST['tasks']
     groups.save()
@@ -86,6 +97,8 @@ def change_task(request, pk):
 
 
 def task_list(request, pk):
+    if not request.user.is_superuser:
+        return redirect('users:login')
     groups = Study_groups.objects.get(id=pk)
     students = Student.objects.filter(group=groups)
     tasks = Task.objects.filter(group=groups)

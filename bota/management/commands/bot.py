@@ -138,7 +138,7 @@ class Command(BotBase):
                     reply_markup = ReplyKeyboardMarkup(keyboard)
                     update.message.reply_text(text="Topshiriqlar jo'natildi", reply_markup=reply_markup)
 
-                # groups = user.groups.all()
+                # groups = users.groups.all()
                 elif user.state == 707:
                     groups_f_s = Study_groups.objects.filter(mertor=user)
                     for gurux in groups_f_s:
@@ -172,23 +172,23 @@ class Command(BotBase):
                 #     todo BU polya topshiriq yuborish
                 # elif msg == 'topshiriq yuborish':
                 #     keyboard = []
-                #     user.save()
+                #     users.save()
                 #     for i in groups:
                 #         keyboard.append([i.name])
                 #
                 #     reply_markup = ReplyKeyboardMarkup(keyboard)
                 #     update.message.reply_text(text="Guruhlarni tanlang", reply_markup=reply_markup)
                 # todo BU POLYA TALABALARGA VA OTA ONALARGA TOPSHITIQ KETISHI
-                # elif user.state != 707:
+                # elif users.state != 707:
                 #     try:
                 #         msg_group = Study_groups.objects.get(name=msg)
                 #     except:
                 #         msg_group = None
                 #
-                #     task = task_func(user, 0)
+                #     task = task_func(users, 0)
                 #     if msg_group in groups:
                 #         last_task_off(msg_group)
-                #         ttask = task_func(user, 0)
+                #         ttask = task_func(users, 0)
                 #         ttask.group = msg_group
                 #         ttask.save()
                 #         update.message.reply_text(text="Savollarni yozing")
@@ -197,8 +197,8 @@ class Command(BotBase):
                 #         counts = msg.split("\n")
                 #         print(counts)
                 #         task.count = len(counts)
-                #         # user.state = None
-                #         user.save()
+                #         # users.state = None
+                #         users.save()
                 #         task.save()
                 #         students_ongroup = Student.objects.filter(group=task.group)
                 #         parents = Telegaram_user.objects.all()
@@ -374,7 +374,7 @@ class Command(BotBase):
             self.updater.bot.send_message(chat_id=user.telegram_user_id, text=text,
                                           reply_markup=reply_markup)
 
-        # user.gro = 77
+        # users.gro = 77
 
         user.save()
         # text = "Ro'yhatdan o'tish muoffaqqiyatli yakunlandi"
